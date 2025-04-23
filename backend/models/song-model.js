@@ -1,8 +1,16 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const songSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  audioUrl: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
+  audioUrl: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => validator.isURL(v),
+      message: (props) => `${props.value} is not a valid URL!`,
+    },
+  },
   genre: { type: String },
   language: { type: String },
   mood: { type: String, default: "Neutral" },
