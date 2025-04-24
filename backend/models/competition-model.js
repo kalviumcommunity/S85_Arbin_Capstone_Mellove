@@ -5,10 +5,10 @@ const competitionSchema = new mongoose.Schema({
   description: { type: String },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  judges: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  judges: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // References users who are acting as judges
   winners: [
     {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // References a winning user
       rank: { type: Number },
     },
   ],

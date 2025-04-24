@@ -16,13 +16,13 @@ const songSchema = new mongoose.Schema({
   mood: { type: String, default: "Neutral" },
   duration: { type: Number, required: true },
   uploader: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId, // References the user who uploaded the song
     ref: "User",
     required: true,
   },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Users who liked the song
+  favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Users who marked this song as favourite
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }], // References comments made on this song
   createdAt: { type: Date, default: Date.now },
 });
 
