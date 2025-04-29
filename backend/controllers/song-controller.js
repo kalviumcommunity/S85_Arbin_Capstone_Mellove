@@ -41,4 +41,36 @@ const getSongById = async (req, res) => {
   }
 };
 
-module.exports = { getAllSongs, getSongById };
+const updateSong = async (req, res) => {
+  try {
+    const updatedSong = await Song.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedSong) {
+      return res.status(404).json({
+        success: false,
+        data: null,
+        message: "Song not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedSong,
+      message: "Song updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: null,
+      message: "Failed to update song: " + error.message,
+    });
+  }
+};
+
+module.exports = { getAllSongs, getSongById, updateSong };
