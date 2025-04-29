@@ -41,6 +41,43 @@ const getCompetitionById = async (req, res) => {
   }
 };
 
+const createCompetition = async (req, res) => {
+  try {
+    const { title, description, startDate, endDate, judges, winners } =
+      req.body;
+
+    // Validate required fields
+    if (!title || !startDate || !endDate) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Title, startDate, and endDate are required",
+      });
+    }
+
+    const newCompetition = await Competition.create({
+      title,
+      description,
+      startDate,
+      endDate,
+      judges,
+      winners,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newCompetition,
+      message: "Competition created successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: null,
+      message: "Failed to create competition: " + error.message,
+    });
+  }
+};
+
 const updateCompetition = async (req, res) => {
   try {
     const updatedCompetition = await Competition.findByIdAndUpdate(
@@ -73,4 +110,9 @@ const updateCompetition = async (req, res) => {
   }
 };
 
-module.exports = { getAllCompetitions, getCompetitionById, updateCompetition };
+module.exports = {
+  getAllCompetitions,
+  getCompetitionById,
+  createCompetition,
+  updateCompetition,
+};
