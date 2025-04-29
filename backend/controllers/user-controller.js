@@ -41,4 +41,39 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById };
+const createUser = async (req, res) => {
+  try {
+    const { username, email, password, profileImage, bio, role } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Username, email, and password are required",
+      });
+    }
+
+    const newUser = await User.create({
+      username,
+      email,
+      password,
+      profileImage,
+      bio,
+      role,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newUser,
+      message: "User created successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: null,
+      message: "Failed to create user: " + error.message,
+    });
+  }
+};
+
+module.exports = { getAllUsers, getUserById, createUser };

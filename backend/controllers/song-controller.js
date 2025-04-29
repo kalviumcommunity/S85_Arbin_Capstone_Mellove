@@ -41,4 +41,42 @@ const getSongById = async (req, res) => {
   }
 };
 
-module.exports = { getAllSongs, getSongById };
+const createSong = async (req, res) => {
+  try {
+    const { title, audioUrl, genre, language, mood, duration, uploader } =
+      req.body;
+
+    // Check required fields
+    if (!title || !audioUrl || !duration || !uploader) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        message: "Title, audioUrl, duration, and uploader are required",
+      });
+    }
+
+    const newSong = await Song.create({
+      title,
+      audioUrl,
+      genre,
+      language,
+      mood,
+      duration,
+      uploader,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newSong,
+      message: "Song uploaded successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: null,
+      message: "Failed to upload song: " + error.message,
+    });
+  }
+};
+
+module.exports = { getAllSongs, getSongById, createSong };
