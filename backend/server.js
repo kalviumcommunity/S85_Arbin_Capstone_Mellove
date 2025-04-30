@@ -3,6 +3,7 @@ const connectDB = require("./database/db");
 const cors = require("cors");
 const getRoutes = require("./routes/getRoutes");
 const postRoutes = require("./routes/postRoutes");
+const putRoutes = require("./routes/putRoutes");
 require("dotenv").config({ path: "./config/.env" });
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/get", getRoutes);
 app.use("/create", postRoutes);
+app.use("/update", putRoutes);
 
 // Basic Route
 app.get("/", (req, res) => {
